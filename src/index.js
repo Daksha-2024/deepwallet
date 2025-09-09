@@ -28,6 +28,7 @@ const cors = require('cors');
 const path = require('path');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const { Pool } = require('pg');
 require('dotenv').config();
 
 const app = express();
@@ -41,13 +42,23 @@ app.use(express.json());
 const userRoutes = require('./routes/userRoutes');
 app.use('/api/users', userRoutes);
 
-// Serve Angular production build
-const distPath = path.join(__dirname, '../../frontend/web-app/dist/web-app');
-app.use(express.static(distPath));
+// API test
+app.get("/", (req, res) => {
+  res.json({ message: "Backend running on Render 🚀" });
+});
 
-// Wildcard route to handle Angular routing
-app.use((req, res, next) => {
-  res.sendFile(path.join(distPath, 'index.html'));
+// // Serve Angular production build
+// const distPath = path.join(__dirname, '../../frontend/web-app/dist/web-app');
+// app.use(express.static(distPath));
+
+// // Wildcard route to handle Angular routing
+// app.use((req, res, next) => {
+//   res.sendFile(path.join(distPath, 'index.html'));
+// });
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false } // Render requires SSL
 });
 
 const PORT = process.env.PORT || 5000;
