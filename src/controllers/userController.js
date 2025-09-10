@@ -2,7 +2,7 @@ const pool = require('../config/db');
 
 const getUsers = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM users');
+    const result = await pool.query('SELECT * FROM inst_user');
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });

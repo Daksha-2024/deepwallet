@@ -22,6 +22,8 @@ if (process.env.DATABASE_URL) {
     ssl: { rejectUnauthorized: false }, // Render requires SSL
   });
   console.log("🌐 Using Render DATABASE_URL");
+  console.log("DATABASE_URL:", process.env.DATABASE_URL ? "set" : "not set");
+
 } else {
   // ✅ Local Development
   pool = new Pool({
